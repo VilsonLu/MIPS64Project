@@ -34,8 +34,8 @@ namespace MIPS64Simulator.Implementation
                     else if (index == statements.Count() - 1) // if statement is the last line
                         break; // stop the loop
                 }
-                else
-                    statements[index] += ";";
+                
+                statements[index] += ";";
 
                 char[] characters = statements[index].ToCharArray();
                 string[] meaning = new string[characters.Count()];
