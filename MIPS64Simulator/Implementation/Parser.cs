@@ -330,6 +330,7 @@ namespace MIPS64Simulator.Implementation
                 statement.Base = baseContent;
                 statement.Immediate = immediate;
                 statement.InstructionIndex = instructionIndex;
+                statement.InstructionType = GetInstructiontType(commandName);
 
                 statementList.Add(statement);
 
@@ -400,7 +401,9 @@ namespace MIPS64Simulator.Implementation
                 case "SD":
                 case "BNE": return InstructionType.IType;
 
-                case "J": return InstructionType.IType;
+                case "J": return InstructionType.JType;
+
+                default: return InstructionType.Unknown;
             }
         }
 
