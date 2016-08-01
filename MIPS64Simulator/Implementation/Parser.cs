@@ -27,8 +27,13 @@ namespace MIPS64Simulator.Implementation
             {
                 int lineNumber = index + 1;
 
-                if (statements[index] == "")
-                    break;
+                if (statements[index] == "") // if a blank line is found
+                {
+                    if (index < statements.Count() - 1) // if statement is not the last line
+                        index++; // go to next line
+                    else if (index == statements.Count() - 1) // if statement is the last line
+                        break; // stop the loop
+                }
                 else
                     statements[index] += ";";
 
