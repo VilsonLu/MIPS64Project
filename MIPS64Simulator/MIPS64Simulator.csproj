@@ -46,20 +46,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="Interface\IPresenter.cs" />
+    <Compile Include="Interface\IView.cs" />
+    <Compile Include="MIPSWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="MIPSWindow.Designer.cs">
+      <DependentUpon>MIPSWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Implementation\Parser.cs" />
     <Compile Include="Interface\IParser.cs" />
     <Compile Include="Models\Statement.cs" />
     <Compile Include="Models\InstructionType.cs" />
+    <Compile Include="Presenter\MIPSPresenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="MIPSWindow.resx">
+      <DependentUpon>MIPSWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
