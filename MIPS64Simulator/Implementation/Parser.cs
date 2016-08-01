@@ -43,6 +43,8 @@ namespace MIPS64Simulator.Implementation
                 for (int p = 0; p <= characters.Count() - 1; p++)
                 {
                     meaning[p] = GetCharMeaning(characters[p]); // gets meaning of every character in line
+                    if (meaning[p] == "colon")
+                        expectingLabel = true;
                 }
 
                 string labelName = "";
@@ -66,8 +68,16 @@ namespace MIPS64Simulator.Implementation
                             partialString += characters[p];
                             if (commands.Contains(partialString) == true && commandName == "")
                             {
-                                commandName = partialString;
-                                partialString = "";
+                                if (expectingLabel == true)
+                                {
+                                    // just let the loop continue until a colon is found
+                                }
+                                else if (commands.Contains(partialString) == true && commandName == "")
+                                {
+                                    commandName = partialString;
+                                    partialString = "";
+                                }                            
+                                break;
                             }
                             break;
                         case "colon":
