@@ -31,5 +31,7 @@ namespace MIPS64Simulator.Models
         public InstructionType InstructionType { get; set; }
 
         public Int32 Opcode { get; set; }
+
+      
     }
 }

@@ -26,7 +26,7 @@ namespace MIPS64Simulator.Implementation
             for (int index = 0; index <= statements.Count() - 1; index++) // LEXICAL ANALYSIS
             {
                 int lineNumber = index + 1;
-
+                bool expectingLabel = false;
                 if (statements[index] == "") // if a blank line is found
                 {
                     if (index < statements.Count() - 1) // if statement is not the last line
