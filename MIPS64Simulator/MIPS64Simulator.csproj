@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helper\BaseConverter.cs" />
     <Compile Include="Helper\OpcodeGenerator.cs" />
     <Compile Include="Interface\IPresenter.cs" />
     <Compile Include="Interface\IView.cs" />

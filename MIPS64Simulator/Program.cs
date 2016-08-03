@@ -19,12 +19,13 @@ namespace MIPS64Simulator
         static void Main()
         {
             IParser parser = new Parser();
-            string code = "SD R2,1234(R31)";
+            string code = "OR R1, R0, R2";
             List<Statement> statements = parser.Parse(code).ToList();
 
             OpcodeGenerator opcodeGenerator = new OpcodeGenerator();
-            opcodeGenerator.GetOpcode(statements[0]);
-
+            Console.WriteLine("Binary: {0}",opcodeGenerator.GetOpcode(statements[0]).HexToBin());
+            Console.WriteLine("Hex: {0}", opcodeGenerator.GetOpcode(statements[0]));
+            opcodeGenerator.GetOpcode
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MIPSWindow());
