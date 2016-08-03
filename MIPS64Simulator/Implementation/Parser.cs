@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MIPS64Simulator.Models;
+using MIPS64Simulator.Helper;
 
 namespace MIPS64Simulator.Implementation
 {
@@ -15,7 +16,14 @@ namespace MIPS64Simulator.Implementation
         "R11","R12","R13","R14","R15","R16","R17","R18","R19","R20",
         "R21","R22","R23","R24","R25","R26","R27","R28","R29","R30","R31"};
         private string[] commands = { "OR", "DSRLV", "SLT", "NOP", "BNE", "LD", "SD", "DADDIU", "J" };
+        private OpcodeGenerator opcodeGenerator;
         #endregion
+
+        public Parser()
+        {
+            opcodeGenerator = new OpcodeGenerator();
+        }
+
 
         public IEnumerable<Statement> Parse(string code)
         {
@@ -346,9 +354,10 @@ namespace MIPS64Simulator.Implementation
                 statement.Immediate = immediate;
                 statement.InstructionIndex = instructionIndex;
                 statement.InstructionType = GetInstructiontType(commandName);
-
+                statement.Code = statements[index];
+                statement.Opcode = opcodeGenerator.GetOpcode(statement);
                 statementList.Add(statement);
-
+                
                 labelName = "";
                 commandName = "";
                 registerD = "";

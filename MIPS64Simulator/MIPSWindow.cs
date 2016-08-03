@@ -1,4 +1,5 @@
 ﻿using MIPS64Simulator.Interface;
+using MIPS64Simulator.Models;
 using MIPS64Simulator.Presenter;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace MIPS64Simulator
         {
             InitializeComponent();
             this.presenter = new MIPSPresenter(this);
+            grdInstructions.AutoGenerateColumns = false;
         }
 
         private string fileName;
@@ -28,7 +30,34 @@ namespace MIPS64Simulator
             {
                 return fileName;
             }
+            set
+            {
+                fileName = value;
+            }
         }
+
+        public string ExceptionMessage
+        {
+            set
+            {
+                MessageBox.Show(value);
+            }
+        }
+
+        public IEnumerable<Statement> Statements
+        {
+            get
+            {
+                return grdInstructions.DataSource as List<Statement>;
+            }
+            set
+            {
+                List<Statement> source = value.ToList();
+                grdInstructions.DataSource = source;
+            }
+        }
+
+
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -38,7 +67,8 @@ namespace MIPS64Simulator
 
             if(openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                this.fileName = openFileDialog.FileName;
+                this.Filename = openFileDialog.FileName;
+                this.presenter.LoadProgram();
             }
 
         }

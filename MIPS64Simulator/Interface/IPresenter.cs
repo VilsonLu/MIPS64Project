@@ -9,5 +9,7 @@ namespace MIPS64Simulator.Interface
     public interface IPresenter
     {
         void Run();
+
+        void LoadProgram();
     }
 }

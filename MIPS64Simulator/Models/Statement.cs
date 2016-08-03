@@ -10,6 +10,8 @@ namespace MIPS64Simulator.Models
     {
         public int Line { get; set; }
 
+        public string Code { get; set; }
+
         public string Label { get; set; }
 
         public string Instruction { get; set; }
@@ -30,7 +32,7 @@ namespace MIPS64Simulator.Models
 
         public InstructionType InstructionType { get; set; }
 
-        public Int32 Opcode { get; set; }
+        public string Opcode { get; set; }
 
       
     }

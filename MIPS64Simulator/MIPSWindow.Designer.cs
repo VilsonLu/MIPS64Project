@@ -36,14 +36,21 @@
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.executeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.grdInstructions = new System.Windows.Forms.DataGridView();
+            this.colAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colInstruction = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colOpcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.flowLayoutPanel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.grdInstructions)).BeginInit();
             this.SuspendLayout();
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 147);
+            this.flowLayoutPanel1.Controls.Add(this.grdInstructions);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 27);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(180, 173);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(375, 288);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // contextMenuStrip1
@@ -88,9 +95,51 @@
             // runToolStripMenuItem
             // 
             this.runToolStripMenuItem.Name = "runToolStripMenuItem";
-            this.runToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.runToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
             this.runToolStripMenuItem.Text = "Run";
             this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
+            // 
+            // grdInstructions
+            // 
+            this.grdInstructions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grdInstructions.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colAddress,
+            this.colInstruction,
+            this.colOpcode});
+            this.grdInstructions.Location = new System.Drawing.Point(3, 3);
+            this.grdInstructions.Name = "grdInstructions";
+            this.grdInstructions.RowHeadersVisible = false;
+            this.grdInstructions.Size = new System.Drawing.Size(371, 285);
+            this.grdInstructions.TabIndex = 0;
+            // 
+            // colAddress
+            // 
+            this.colAddress.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colAddress.DataPropertyName = "Line";
+            this.colAddress.FillWeight = 103.0928F;
+            this.colAddress.HeaderText = "Address";
+            this.colAddress.MinimumWidth = 100;
+            this.colAddress.Name = "colAddress";
+            this.colAddress.ReadOnly = true;
+            // 
+            // colInstruction
+            // 
+            this.colInstruction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colInstruction.DataPropertyName = "Code";
+            this.colInstruction.FillWeight = 96.90722F;
+            this.colInstruction.HeaderText = "Instruction";
+            this.colInstruction.MinimumWidth = 150;
+            this.colInstruction.Name = "colInstruction";
+            this.colInstruction.ReadOnly = true;
+            // 
+            // colOpcode
+            // 
+            this.colOpcode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colOpcode.DataPropertyName = "Opcode";
+            this.colOpcode.HeaderText = "Opcode";
+            this.colOpcode.MinimumWidth = 100;
+            this.colOpcode.Name = "colOpcode";
+            this.colOpcode.ReadOnly = true;
             // 
             // MIPSWindow
             // 
@@ -102,8 +151,10 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MIPSWindow";
             this.Text = "Form1";
+            this.flowLayoutPanel1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.grdInstructions)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -118,6 +169,10 @@
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem executeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
+        private System.Windows.Forms.DataGridView grdInstructions;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colAddress;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colInstruction;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colOpcode;
     }
 }
 
