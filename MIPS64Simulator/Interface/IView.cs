@@ -1,9 +1,5 @@
 ﻿using MIPS64Simulator.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MIPS64Simulator.Interface
 {
@@ -14,5 +10,7 @@ namespace MIPS64Simulator.Interface
         string ExceptionMessage { set; }
 
         IEnumerable<Statement> Statements { get; set; } 
+
+        IEnumerable<Register> Registers { get; set; }
     }
 }

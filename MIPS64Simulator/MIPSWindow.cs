@@ -19,8 +19,15 @@ namespace MIPS64Simulator
         public MIPSWindow()
         {
             InitializeComponent();
+            InitControls();
             this.presenter = new MIPSPresenter(this);
+
+        }
+
+        private void InitControls()
+        {
             grdInstructions.AutoGenerateColumns = false;
+            grdRegisters.AutoGenerateColumns = false;
         }
 
         private string fileName;
@@ -57,7 +64,18 @@ namespace MIPS64Simulator
             }
         }
 
-
+        public IEnumerable<Register> Registers
+        {
+            get
+            {
+                return grdRegisters.DataSource as List<Register>;
+            }
+            set
+            {
+                List<Register> source = value.ToList();
+                grdRegisters.DataSource = source;
+            }
+        }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -65,7 +83,7 @@ namespace MIPS64Simulator
             openFileDialog.Filter = "Text Files|*.txt";
             openFileDialog.Title = "Select a Text File";
 
-            if(openFileDialog.ShowDialog() == DialogResult.OK)
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 this.Filename = openFileDialog.FileName;
                 this.presenter.LoadProgram();
@@ -76,6 +94,15 @@ namespace MIPS64Simulator
         private void runToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.presenter.Run();
+        }
+
+        private void grdRegisters_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == colValue.Index && e.RowIndex >= 0)
+            {
+                Int64 value = Int64.Parse(grdRegisters[e.ColumnIndex, e.RowIndex].Value.ToString());
+                statusStrip.Text = String.Format("Value: {0}", value.ToString());
+            }
         }
     }
 }
