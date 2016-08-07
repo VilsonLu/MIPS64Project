@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MIPS64Simulator.Helper
 {
@@ -16,6 +12,11 @@ namespace MIPS64Simulator.Helper
         public static string HexToBin(this string value)
         {
             return Convert.ToString(Convert.ToInt32(value, 16), 2).PadLeft(32,'0');
+        }
+
+        public static string DecToHex(this int value, int digit)
+        {
+            return value.ToString("X" + digit.ToString());
         }
     }
 }

@@ -9,8 +9,12 @@ namespace MIPS64Simulator.Interface
 
         string ExceptionMessage { set; }
 
+        bool EnableRun { get; set; }
+
         IEnumerable<Statement> Statements { get; set; } 
 
         IEnumerable<Register> Registers { get; set; }
+
+        IEnumerable<Data> Data { get; set; }
     }
 }

@@ -50,6 +50,7 @@
     <Compile Include="Helper\OpcodeGenerator.cs" />
     <Compile Include="Interface\IPresenter.cs" />
     <Compile Include="Interface\IView.cs" />
+    <Compile Include="Models\Data.cs" />
     <Compile Include="Models\Register.cs" />
     <Compile Include="MIPSWindow.cs">
       <SubType>Form</SubType>

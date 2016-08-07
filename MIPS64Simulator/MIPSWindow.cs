@@ -28,6 +28,7 @@ namespace MIPS64Simulator
         {
             grdInstructions.AutoGenerateColumns = false;
             grdRegisters.AutoGenerateColumns = false;
+            grdMemory.AutoGenerateColumns = false;
         }
 
         private string fileName;
@@ -77,6 +78,31 @@ namespace MIPS64Simulator
             }
         }
 
+        public IEnumerable<Data> Data
+        {
+            get
+            {
+                return grdMemory.DataSource as List<Data>;
+            }
+            set
+            {
+                List<Data> source = value.ToList();
+                grdMemory.DataSource = source;
+            }
+        }
+
+        public bool EnableRun
+        {
+            get
+            {
+                return runToolStripMenuItem.Enabled;
+            }
+            set
+            {
+                runToolStripMenuItem.Enabled = value;
+            }
+        }
+
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -103,6 +129,11 @@ namespace MIPS64Simulator
                 Int64 value = Int64.Parse(grdRegisters[e.ColumnIndex, e.RowIndex].Value.ToString());
                 statusStrip.Text = String.Format("Value: {0}", value.ToString());
             }
+        }
+
+        private void grdRegisters_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.Cancel = false;
         }
     }
 }
