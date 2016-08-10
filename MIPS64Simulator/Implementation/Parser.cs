@@ -274,23 +274,9 @@ namespace MIPS64Simulator.Implementation
                                 case "J":
                                     if (partialString != "")
                                     {
-                                        instructionIndex = partialString;
-                                        bool targetFound = false;
-                                        foreach (Statement statementLine in statementList)
-                                        {
-                                            if (statementLine.Label == instructionIndex)
-                                            {
-                                                instructionIndex = statementLine.Line.ToString("D" + 4);
-                                                targetFound = true;
-                                                break;
-                                            }
-                                        }
-                                        if (targetFound == false)
-                                        {
-                                            throw new Exception(String.Format("Line {0}: The target label is not found", index));
-                                        }
+                                        instructionIndex = partialString; // will be reprocessed in pointJump() method
                                     }
-                                    else if (partialString != "")
+                                    else if (partialString == "")
                                     {
                                         throw new Exception(String.Format("Line {0}: The target label is not found", index));
                                     }
@@ -377,6 +363,31 @@ namespace MIPS64Simulator.Implementation
             return statementList;
         }
 
+        private void pointJumps(List<Statement> allStatements)
+        {
+            bool targetFound = false;
+            foreach (Statement fromStatement in allStatements)
+            {
+                targetFound = false;
+                if (fromStatement.Instruction == "J")
+                {
+                    foreach (Statement toStatement in allStatements)
+                    {
+                        if (fromStatement.InstructionIndex == toStatement.Label)
+                        {
+                            fromStatement.InstructionIndex = toStatement.Line.ToString();
+                            targetFound = true;
+                            break;
+                        }
+                    }
+                    if (targetFound == false)
+                    {
+                        throw new Exception(String.Format("Line {0}: The target label is not found", index));
+                        break;
+                    }
+                }
+            }
+        }
 
         #region Helper Methods
         private string GetCharMeaning(char unknown)
