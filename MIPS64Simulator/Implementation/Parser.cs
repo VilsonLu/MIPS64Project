@@ -353,14 +353,14 @@ namespace MIPS64Simulator.Implementation
                 instructionIndex = "";
                 baseContent = "";
                 immediate = "";
-
-                // return statementList; // returns array of objects containing each statement in code
             }
 
 
             #endregion
 
             return statementList;
+            
+            pointJumps(statementList); // changes InstructionIndex content of all statements from Label to LineNumber
         }
 
         private void pointJumps(List<Statement> allStatements)
