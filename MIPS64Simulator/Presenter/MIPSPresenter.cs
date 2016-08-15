@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MIPS64Simulator.Helper;
+using System.Data;
 
 namespace MIPS64Simulator.Presenter
 {
@@ -74,8 +75,22 @@ namespace MIPS64Simulator.Presenter
 
         public void Run()
         {
-            var x = view.Registers;
-            var y = view.Data;
+            var x = this.view.Registers.ToList();
+            var y = this.view.Data.ToList();
+            var z = this.view.Statements.ToList();
+
+            ExecutePipeline(x, y, z);
+
+            this.view.Registers = x;
+            this.view.Data = y;
+
+        }
+
+        public void ExecutePipeline(List<Register> registers, List<Data> memory, List<Statement> statements)
+        {
+            CycleManager cycle = new CycleManager(statements, registers, memory);
+            this.view.PipelineMap = cycle.Execute();
+
         }
 
         public void LoadProgram()
@@ -93,6 +108,13 @@ namespace MIPS64Simulator.Presenter
                 view.ExceptionMessage = ex.Message;
             }
 
+        }
+
+        public void Reset()
+        {
+            this.view.Registers = InitRegisters();
+            this.view.Data = InitMemory();
+            this.view.PipelineMap = null;
         }
     }
 }

@@ -29,13 +29,17 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.lblCode = new System.Windows.Forms.Label();
             this.grdInstructions = new System.Windows.Forms.DataGridView();
+            this.colAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colInstruction = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colOpcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,23 +47,23 @@
             this.executeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.lblRegister = new System.Windows.Forms.Label();
             this.grdRegisters = new System.Windows.Forms.DataGridView();
+            this.colRegister = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.statusBar = new System.Windows.Forms.StatusStrip();
             this.toolStripValue = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblCode = new System.Windows.Forms.Label();
-            this.lblRegister = new System.Windows.Forms.Label();
-            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblMemory = new System.Windows.Forms.Label();
             this.grdMemory = new System.Windows.Forms.DataGridView();
-            this.colAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colInstruction = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colOpcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colRegister = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colMemAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colMemValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
+            this.lblPipeline = new System.Windows.Forms.Label();
+            this.grdPipeline = new System.Windows.Forms.DataGridView();
+            this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdInstructions)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -68,6 +72,8 @@
             this.statusBar.SuspendLayout();
             this.flowLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdMemory)).BeginInit();
+            this.flowLayoutPanel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.grdPipeline)).BeginInit();
             this.SuspendLayout();
             // 
             // flowLayoutPanel1
@@ -78,6 +84,17 @@
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(375, 313);
             this.flowLayoutPanel1.TabIndex = 0;
+            // 
+            // lblCode
+            // 
+            this.lblCode.AutoSize = true;
+            this.lblCode.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCode.Location = new System.Drawing.Point(3, 0);
+            this.lblCode.Name = "lblCode";
+            this.lblCode.Size = new System.Drawing.Size(51, 20);
+            this.lblCode.TabIndex = 1;
+            this.lblCode.Text = "Code";
             // 
             // grdInstructions
             // 
@@ -91,6 +108,37 @@
             this.grdInstructions.RowHeadersVisible = false;
             this.grdInstructions.Size = new System.Drawing.Size(371, 285);
             this.grdInstructions.TabIndex = 0;
+            // 
+            // colAddress
+            // 
+            this.colAddress.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colAddress.DataPropertyName = "Line";
+            dataGridViewCellStyle1.Format = "X4";
+            this.colAddress.DefaultCellStyle = dataGridViewCellStyle1;
+            this.colAddress.FillWeight = 103.0928F;
+            this.colAddress.HeaderText = "Address";
+            this.colAddress.MinimumWidth = 100;
+            this.colAddress.Name = "colAddress";
+            this.colAddress.ReadOnly = true;
+            // 
+            // colInstruction
+            // 
+            this.colInstruction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colInstruction.DataPropertyName = "Code";
+            this.colInstruction.FillWeight = 96.90722F;
+            this.colInstruction.HeaderText = "Instruction";
+            this.colInstruction.MinimumWidth = 150;
+            this.colInstruction.Name = "colInstruction";
+            this.colInstruction.ReadOnly = true;
+            // 
+            // colOpcode
+            // 
+            this.colOpcode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colOpcode.DataPropertyName = "Opcode";
+            this.colOpcode.HeaderText = "Opcode";
+            this.colOpcode.MinimumWidth = 100;
+            this.colOpcode.Name = "colOpcode";
+            this.colOpcode.ReadOnly = true;
             // 
             // contextMenuStrip1
             // 
@@ -126,7 +174,8 @@
             // executeToolStripMenuItem
             // 
             this.executeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.runToolStripMenuItem});
+            this.runToolStripMenuItem,
+            this.resetToolStripMenuItem});
             this.executeToolStripMenuItem.Name = "executeToolStripMenuItem";
             this.executeToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.executeToolStripMenuItem.Text = "Execute";
@@ -134,7 +183,7 @@
             // runToolStripMenuItem
             // 
             this.runToolStripMenuItem.Name = "runToolStripMenuItem";
-            this.runToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
+            this.runToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.runToolStripMenuItem.Text = "Run";
             this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
             // 
@@ -148,10 +197,21 @@
             this.flowLayoutPanel2.Size = new System.Drawing.Size(229, 313);
             this.flowLayoutPanel2.TabIndex = 3;
             // 
+            // lblRegister
+            // 
+            this.lblRegister.AutoSize = true;
+            this.lblRegister.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRegister.Location = new System.Drawing.Point(3, 0);
+            this.lblRegister.Name = "lblRegister";
+            this.lblRegister.Size = new System.Drawing.Size(77, 20);
+            this.lblRegister.TabIndex = 1;
+            this.lblRegister.Text = "Register";
+            // 
             // grdRegisters
             // 
             dataGridViewCellStyle2.NullValue = null;
             this.grdRegisters.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            this.grdRegisters.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.grdRegisters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdRegisters.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colRegister,
@@ -172,16 +232,41 @@
             this.grdRegisters.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdRegisters_CellClick);
             this.grdRegisters.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.grdRegisters_DataError);
             // 
+            // colRegister
+            // 
+            this.colRegister.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colRegister.DataPropertyName = "RegisterName";
+            this.colRegister.HeaderText = "Register";
+            this.colRegister.MinimumWidth = 40;
+            this.colRegister.Name = "colRegister";
+            // 
+            // colValue
+            // 
+            this.colValue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colValue.DataPropertyName = "Value";
+            dataGridViewCellStyle3.Format = "X16";
+            this.colValue.DefaultCellStyle = dataGridViewCellStyle3;
+            this.colValue.HeaderText = "Value";
+            this.colValue.MinimumWidth = 150;
+            this.colValue.Name = "colValue";
+            // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 314);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(200, 100);
+            this.flowLayoutPanel3.TabIndex = 2;
+            // 
             // statusBar
             // 
             this.statusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripValue,
             this.statusStrip});
-            this.statusBar.Location = new System.Drawing.Point(0, 493);
+            this.statusBar.Location = new System.Drawing.Point(0, 545);
             this.statusBar.Name = "statusBar";
             this.statusBar.Size = new System.Drawing.Size(881, 22);
             this.statusBar.TabIndex = 4;
-            this.statusBar.Text = "statusStrip1";
+            this.statusBar.Text = "Pipeline";
             // 
             // toolStripValue
             // 
@@ -192,34 +277,6 @@
             // 
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(0, 17);
-            // 
-            // lblCode
-            // 
-            this.lblCode.AutoSize = true;
-            this.lblCode.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCode.Location = new System.Drawing.Point(3, 0);
-            this.lblCode.Name = "lblCode";
-            this.lblCode.Size = new System.Drawing.Size(51, 20);
-            this.lblCode.TabIndex = 1;
-            this.lblCode.Text = "Code";
-            // 
-            // lblRegister
-            // 
-            this.lblRegister.AutoSize = true;
-            this.lblRegister.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRegister.Location = new System.Drawing.Point(3, 0);
-            this.lblRegister.Name = "lblRegister";
-            this.lblRegister.Size = new System.Drawing.Size(77, 20);
-            this.lblRegister.TabIndex = 1;
-            this.lblRegister.Text = "Register";
-            // 
-            // flowLayoutPanel3
-            // 
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 314);
-            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(200, 100);
-            this.flowLayoutPanel3.TabIndex = 2;
             // 
             // flowLayoutPanel4
             // 
@@ -242,6 +299,7 @@
             // 
             // grdMemory
             // 
+            this.grdMemory.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.grdMemory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdMemory.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colMemAddress,
@@ -251,55 +309,6 @@
             this.grdMemory.RowHeadersVisible = false;
             this.grdMemory.Size = new System.Drawing.Size(240, 285);
             this.grdMemory.TabIndex = 1;
-            // 
-            // colAddress
-            // 
-            this.colAddress.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colAddress.DataPropertyName = "Line";
-            dataGridViewCellStyle1.Format = "X4";
-            this.colAddress.DefaultCellStyle = dataGridViewCellStyle1;
-            this.colAddress.FillWeight = 103.0928F;
-            this.colAddress.HeaderText = "Address";
-            this.colAddress.MinimumWidth = 100;
-            this.colAddress.Name = "colAddress";
-            this.colAddress.ReadOnly = true;
-            // 
-            // colInstruction
-            // 
-            this.colInstruction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colInstruction.DataPropertyName = "Code";
-            this.colInstruction.FillWeight = 96.90722F;
-            this.colInstruction.HeaderText = "Instruction";
-            this.colInstruction.MinimumWidth = 150;
-            this.colInstruction.Name = "colInstruction";
-            this.colInstruction.ReadOnly = true;
-            // 
-            // colOpcode
-            // 
-            this.colOpcode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colOpcode.DataPropertyName = "Opcode";
-            this.colOpcode.HeaderText = "Opcode";
-            this.colOpcode.MinimumWidth = 100;
-            this.colOpcode.Name = "colOpcode";
-            this.colOpcode.ReadOnly = true;
-            // 
-            // colRegister
-            // 
-            this.colRegister.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colRegister.DataPropertyName = "RegisterName";
-            this.colRegister.HeaderText = "Register";
-            this.colRegister.MinimumWidth = 40;
-            this.colRegister.Name = "colRegister";
-            // 
-            // colValue
-            // 
-            this.colValue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colValue.DataPropertyName = "Value";
-            dataGridViewCellStyle3.Format = "X16";
-            this.colValue.DefaultCellStyle = dataGridViewCellStyle3;
-            this.colValue.HeaderText = "Value";
-            this.colValue.MinimumWidth = 150;
-            this.colValue.Name = "colValue";
             // 
             // colMemAddress
             // 
@@ -318,11 +327,46 @@
             this.colMemValue.MinimumWidth = 100;
             this.colMemValue.Name = "colMemValue";
             // 
+            // flowLayoutPanel5
+            // 
+            this.flowLayoutPanel5.Controls.Add(this.lblPipeline);
+            this.flowLayoutPanel5.Controls.Add(this.grdPipeline);
+            this.flowLayoutPanel5.Location = new System.Drawing.Point(12, 346);
+            this.flowLayoutPanel5.Name = "flowLayoutPanel5";
+            this.flowLayoutPanel5.Size = new System.Drawing.Size(862, 162);
+            this.flowLayoutPanel5.TabIndex = 6;
+            // 
+            // lblPipeline
+            // 
+            this.lblPipeline.AutoSize = true;
+            this.lblPipeline.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPipeline.Location = new System.Drawing.Point(3, 0);
+            this.lblPipeline.Name = "lblPipeline";
+            this.lblPipeline.Size = new System.Drawing.Size(72, 20);
+            this.lblPipeline.TabIndex = 2;
+            this.lblPipeline.Text = "Pipeline";
+            // 
+            // grdPipeline
+            // 
+            this.grdPipeline.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grdPipeline.Location = new System.Drawing.Point(3, 23);
+            this.grdPipeline.Name = "grdPipeline";
+            this.grdPipeline.Size = new System.Drawing.Size(854, 139);
+            this.grdPipeline.TabIndex = 1;
+            // 
+            // resetToolStripMenuItem
+            // 
+            this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
+            this.resetToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.resetToolStripMenuItem.Text = "Reset";
+            this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
+            // 
             // MIPSWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(881, 515);
+            this.ClientSize = new System.Drawing.Size(881, 567);
+            this.Controls.Add(this.flowLayoutPanel5);
             this.Controls.Add(this.flowLayoutPanel4);
             this.Controls.Add(this.statusBar);
             this.Controls.Add(this.flowLayoutPanel2);
@@ -330,7 +374,7 @@
             this.Controls.Add(this.flowLayoutPanel1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MIPSWindow";
-            this.Text = "Form1";
+            this.Text = "MicroMIPS";
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdInstructions)).EndInit();
@@ -344,6 +388,9 @@
             this.flowLayoutPanel4.ResumeLayout(false);
             this.flowLayoutPanel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdMemory)).EndInit();
+            this.flowLayoutPanel5.ResumeLayout(false);
+            this.flowLayoutPanel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.grdPipeline)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -377,6 +424,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colValue;
         private System.Windows.Forms.DataGridViewTextBoxColumn colMemAddress;
         private System.Windows.Forms.DataGridViewTextBoxColumn colMemValue;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel5;
+        private System.Windows.Forms.Label lblPipeline;
+        private System.Windows.Forms.DataGridView grdPipeline;
+        private System.Windows.Forms.ToolStripMenuItem resetToolStripMenuItem;
     }
 }
 

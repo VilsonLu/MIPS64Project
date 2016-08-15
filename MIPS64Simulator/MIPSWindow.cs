@@ -3,12 +3,8 @@ using MIPS64Simulator.Models;
 using MIPS64Simulator.Presenter;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MIPS64Simulator
@@ -21,7 +17,6 @@ namespace MIPS64Simulator
             InitializeComponent();
             InitControls();
             this.presenter = new MIPSPresenter(this);
-
         }
 
         private void InitControls()
@@ -103,6 +98,18 @@ namespace MIPS64Simulator
             }
         }
 
+        public DataTable PipelineMap
+        {
+            get
+            {
+                return grdPipeline.DataSource as DataTable;
+            }
+            set
+            {
+                grdPipeline.DataSource = value;
+            }
+        }
+
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -134,6 +141,11 @@ namespace MIPS64Simulator
         private void grdRegisters_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
             e.Cancel = false;
+        }
+
+        private void resetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.presenter.Reset();
         }
     }
 }

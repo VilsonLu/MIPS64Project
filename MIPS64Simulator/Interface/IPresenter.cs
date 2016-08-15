@@ -11,5 +11,7 @@ namespace MIPS64Simulator.Interface
         void Run();
 
         void LoadProgram();
+
+        void Reset();
     }
 }

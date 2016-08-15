@@ -358,9 +358,10 @@ namespace MIPS64Simulator.Implementation
 
             #endregion
 
-            return statementList;
-            
             pointJumps(statementList); // changes InstructionIndex content of all statements from Label to LineNumber
+
+            return statementList;
+           
         }
 
         private void pointJumps(List<Statement> allStatements)
@@ -382,8 +383,7 @@ namespace MIPS64Simulator.Implementation
                     }
                     if (targetFound == false)
                     {
-                        throw new Exception(String.Format("Line {0}: The target label is not found", index));
-                        break;
+                        throw new Exception(String.Format("The target label is not found"));
                     }
                 }
             }

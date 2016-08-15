@@ -1,5 +1,6 @@
 ﻿using MIPS64Simulator.Models;
 using System.Collections.Generic;
+using System.Data;
 
 namespace MIPS64Simulator.Interface
 {
@@ -16,5 +17,7 @@ namespace MIPS64Simulator.Interface
         IEnumerable<Register> Registers { get; set; }
 
         IEnumerable<Data> Data { get; set; }
+
+        DataTable PipelineMap { get; set; }
     }
 }

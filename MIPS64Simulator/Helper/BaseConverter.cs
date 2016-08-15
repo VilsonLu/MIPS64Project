@@ -14,6 +14,11 @@ namespace MIPS64Simulator.Helper
             return Convert.ToString(Convert.ToInt32(value, 16), 2).PadLeft(32,'0');
         }
 
+        public static int BinToDec(this string value)
+        {
+            return Convert.ToInt32(value, 2);
+        }
+
         public static string DecToHex(this int value, int digit)
         {
             return value.ToString("X" + digit.ToString());

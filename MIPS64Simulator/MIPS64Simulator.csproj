@@ -47,10 +47,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helper\BaseConverter.cs" />
+    <Compile Include="Helper\CycleManager.cs" />
     <Compile Include="Helper\OpcodeGenerator.cs" />
     <Compile Include="Interface\IPresenter.cs" />
     <Compile Include="Interface\IView.cs" />
     <Compile Include="Models\Data.cs" />
+    <Compile Include="Models\Pipeline\EX.cs" />
+    <Compile Include="Models\Pipeline\ID.cs" />
+    <Compile Include="Models\Pipeline\IF.cs" />
+    <Compile Include="Models\Pipeline\MEM.cs" />
+    <Compile Include="Models\Pipeline\WB.cs" />
     <Compile Include="Models\Register.cs" />
     <Compile Include="MIPSWindow.cs">
       <SubType>Form</SubType>
