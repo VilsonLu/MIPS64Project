@@ -56,6 +56,7 @@
     <Compile Include="Models\Pipeline\ID.cs" />
     <Compile Include="Models\Pipeline\IF.cs" />
     <Compile Include="Models\Pipeline\MEM.cs" />
+    <Compile Include="Models\Pipeline\Stall.cs" />
     <Compile Include="Models\Pipeline\WB.cs" />
     <Compile Include="Models\Register.cs" />
     <Compile Include="MIPSWindow.cs">

@@ -15,7 +15,7 @@ namespace MIPS64Simulator.Helper
         private int cycle;
 
         private bool IsLastCycle = false;
-        private bool IsStall = false;
+        
         private Dictionary<int, int> RegisterInUse;
 
         private IF fetch;
@@ -23,6 +23,7 @@ namespace MIPS64Simulator.Helper
         private EX execute;
         private MEM mem;
         private WB wb;
+        private Stall stall;
 
 
 
@@ -40,6 +41,7 @@ namespace MIPS64Simulator.Helper
             this.execute = new EX();
             this.mem = new MEM();
             this.wb = new WB();
+            this.stall = new Stall();
         }
 
         public DataTable Execute()
@@ -58,29 +60,65 @@ namespace MIPS64Simulator.Helper
                 pipeline.Columns.Add(new DataColumn(cycle.ToString(), typeof(string)));
                 // WB
                 this.wb.IR = this.mem.IR;
+                this.wb.NPC = this.mem.NPC;
                 if (!string.IsNullOrEmpty(this.mem.IR))
                 {
-                    this.wb.NPC = this.mem.NPC;
-                    GetWB(this.wb.IR);
-                    AddToPipeline(pipeline, this.wb.NPC, cycle, "WB");
+                    if (CheckStallStatus(this.wb.NPC))
+                    {
+                        GetWB(this.wb.IR);
+                        RemoveRegisterInUse(this.wb.IR);
+                        AddToPipeline(pipeline, this.wb.NPC, cycle, "WB");
+
+                    } else
+                    {
+                        this.wb.IR = this.mem.IR;
+                        this.wb.NPC = this.mem.NPC;
+                        AddToPipeline(pipeline, this.wb.NPC, cycle, "*");
+                    }
+
+                    if (this.stall.Address == this.mem.NPC)
+                    {
+                        this.stall.IsStall = false;
+                        
+                    }
+
                 }
 
                 // MEM
                 this.mem.IR = this.execute.IR;
+                this.mem.NPC = this.execute.NPC;
                 if (!string.IsNullOrEmpty(this.execute.IR))
                 {
-                    this.mem.NPC = this.execute.NPC;
-                    GetMem(this.mem.IR);
-                    AddToPipeline(pipeline, this.mem.NPC, cycle, "MEM");
+                    if (CheckStallStatus(this.execute.NPC))
+                    {
+                        
+                        GetMem(this.mem.IR);
+                        AddToPipeline(pipeline, this.mem.NPC, cycle, "MEM");
+                    } else
+                    {
+                        this.execute.IR = this.execute.IR;
+                        this.execute.NPC = this.execute.NPC;
+                        AddToPipeline(pipeline, this.mem.NPC, cycle, "*");
+                    }
+                   
                 }
 
                 // EX
                 this.execute.IR = this.decode.IR;
+                this.execute.NPC = this.decode.NPC;
                 if (!String.IsNullOrEmpty(this.decode.IR))
                 {
-                    this.execute.NPC = this.decode.NPC;
-                    GetEx(this.execute.IR);
-                    AddToPipeline(pipeline, this.execute.NPC, cycle, "EX");
+                    if (CheckStallStatus(this.decode.NPC))
+                    {
+                        GetEx(this.execute.IR);
+                        AddToPipeline(pipeline, this.execute.NPC, cycle, "EX");
+                    } else
+                    {
+                        this.execute.IR = this.decode.IR;
+                        this.execute.NPC = this.decode.NPC;
+                        AddToPipeline(pipeline, this.execute.NPC, cycle, "*");
+                    }
+                   
                 }
 
                 // ID
@@ -88,20 +126,48 @@ namespace MIPS64Simulator.Helper
                 if (!String.IsNullOrEmpty(this.fetch.IR))
                 {
                     this.decode.NPC = this.fetch.PC;
-                    this.decode.A = GetA(this.decode.IR);
-                    this.decode.B = GetB(this.decode.IR);
-                    this.decode.Imm = GetImm(this.decode.IR);
-                    AddToPipeline(pipeline, this.decode.NPC, cycle, "ID");
+                    if (CheckStallStatus(this.decode.NPC))
+                    {
+                        
+                        this.decode.A = GetA(this.decode.IR);
+                        this.decode.B = GetB(this.decode.IR);
+                        this.decode.Imm = GetImm(this.decode.IR);
+                        AddToPipeline(pipeline, this.decode.NPC, cycle, "ID");
+                    } else
+                    {
+                        this.decode.IR = this.fetch.IR;
+                        this.decode.NPC = this.fetch.PC;
+                        AddToPipeline(pipeline, this.decode.NPC, cycle, "*");
+                    }
                 }
 
                 // IF
-                this.fetch.IR = GetInstruction(this.fetch.NPC);
-                AddToPipeline(pipeline, this.fetch.NPC, cycle, "IF");
-                this.fetch.PC = this.fetch.NPC;
-                this.fetch.NPC += 4;
 
+                if (!this.stall.IsStall)
+                {
+                    this.fetch.IR = GetInstruction(this.fetch.NPC);
 
+                    if (!String.IsNullOrEmpty(this.fetch.IR))
+                    {
+                        GetUsedRegisters(this.fetch.IR, this.fetch.NPC);
+                    }
 
+                    if(HasDependency(this.fetch.IR, this.fetch.NPC))
+                    {
+                        this.stall.IsStall = true;
+                        this.stall.Address = this.fetch.NPC;
+                    }
+
+                    AddToPipeline(pipeline, this.fetch.NPC, cycle, "IF");
+                    this.fetch.PC = this.fetch.NPC;
+
+                  
+                        this.fetch.NPC += 4;
+                       
+                    
+                   
+                }
+              
                 cycle++;
             } while (!IsLastCycle);
 
@@ -143,19 +209,25 @@ namespace MIPS64Simulator.Helper
             if (String.IsNullOrEmpty(instruction))
                 return false;
 
-            int register = 0;
+            int rs = 0;
+            int rt = 0;
+            bool flag = false;
             string opcode = instruction.HexToBin().Substring(0, 6);
             switch (opcode)
             {
                 case "000000":
-                    register = instruction.HexToBin().Substring(16, 5).BinToDec();
+                    rs = instruction.HexToBin().Substring(6, 5).BinToDec();
+                    rt = instruction.HexToBin().Substring(11, 5).BinToDec();
+                    flag = this.RegisterInUse.Any(x => x.Key == rs && x.Value != address) 
+                            || this.RegisterInUse.Any(x => x.Key == rt && x.Value != address);
                     break;
                 default:
-                    register = instruction.HexToBin().Substring(11, 5).BinToDec();
+                    rs = instruction.HexToBin().Substring(6, 5).BinToDec();
+                    flag = this.RegisterInUse.Any(x => x.Key == rs && x.Value != address);
                     break;
             }
 
-            return this.RegisterInUse.Any(x => x.Key == register && x.Value != address);
+            return flag;
         }
 
         private void RemoveRegisterInUse(string instruction)
@@ -224,7 +296,6 @@ namespace MIPS64Simulator.Helper
             return immediate;
         }
 
-        private string[] commands = { "OR", "DSRLV", "SLT", "NOP", "BNE", "LD", "SD", "DADDIU", "J" };
         private void GetEx(string instruction)
         {
             bool IsRType = false;
@@ -241,7 +312,7 @@ namespace MIPS64Simulator.Helper
                     break;
                 case "110111": // LD
                 case "111111": // SD
-                    this.execute.ALUOutput = this.decode.A + this.decode.Imm;
+                    this.execute.ALUOutput = this.decode.A * 8 + this.decode.Imm;
                     this.execute.Cond = 0;
                     this.execute.B = this.decode.B;
                     this.execute.NPC = this.decode.NPC;
@@ -311,7 +382,6 @@ namespace MIPS64Simulator.Helper
             }
         }
 
-
         private void GetWB(string instruction)
         {
             string opcode = instruction.HexToBin().Substring(0, 6);
@@ -339,6 +409,19 @@ namespace MIPS64Simulator.Helper
                 IsLastCycle = true;
             }
         }
+
+        private bool CheckStallStatus(int address)
+        {
+
+            // if instruction is previous, allow them to pass
+            if(address < this.fetch.PC)
+            {
+                return true;
+            }
+
+            return !this.stall.IsStall;
+        }
+
 
         private bool IsLastInstruction(string instruction)
         {
