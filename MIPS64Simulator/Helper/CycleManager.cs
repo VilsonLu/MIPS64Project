@@ -15,7 +15,7 @@ namespace MIPS64Simulator.Helper
         private int cycle;
 
         private bool IsLastCycle = false;
-        
+
         private Dictionary<int, int> RegisterInUse;
 
         private IF fetch;
@@ -24,8 +24,6 @@ namespace MIPS64Simulator.Helper
         private MEM mem;
         private WB wb;
         private Stall stall;
-
-
 
         public CycleManager(List<Statement> statements, List<Register> registers, List<Data> memory)
         {
@@ -47,12 +45,11 @@ namespace MIPS64Simulator.Helper
         public DataTable Execute()
         {
             DataTable pipeline = new DataTable();
-
-            pipeline.Columns.Add(new DataColumn("Instructions", typeof(string)));
             pipeline.Columns.Add(new DataColumn("Address", typeof(int)));
+            pipeline.Columns.Add(new DataColumn("Instructions", typeof(string)));
             foreach (Statement statement in statements)
             {
-                pipeline.Rows.Add(statement.Code, statement.Line);
+                pipeline.Rows.Add(statement.Line, statement.Code);
             }
 
             do
@@ -61,25 +58,26 @@ namespace MIPS64Simulator.Helper
                 // WB
                 this.wb.IR = this.mem.IR;
                 this.wb.NPC = this.mem.NPC;
-                if (!string.IsNullOrEmpty(this.mem.IR))
+
+                if (this.stall.Address == this.wb.NPC)
                 {
+                    this.stall.IsStall = false;
+                }
+
+                if (!string.IsNullOrEmpty(this.wb.IR))
+                {
+
                     if (CheckStallStatus(this.wb.NPC))
                     {
                         GetWB(this.wb.IR);
                         RemoveRegisterInUse(this.wb.IR);
                         AddToPipeline(pipeline, this.wb.NPC, cycle, "WB");
-
-                    } else
+                    }
+                    else
                     {
-                        this.wb.IR = this.mem.IR;
+                        this.wb.IR = String.Empty;
                         this.wb.NPC = this.mem.NPC;
                         AddToPipeline(pipeline, this.wb.NPC, cycle, "*");
-                    }
-
-                    if (this.stall.Address == this.mem.NPC)
-                    {
-                        this.stall.IsStall = false;
-                        
                     }
 
                 }
@@ -91,16 +89,17 @@ namespace MIPS64Simulator.Helper
                 {
                     if (CheckStallStatus(this.execute.NPC))
                     {
-                        
                         GetMem(this.mem.IR);
                         AddToPipeline(pipeline, this.mem.NPC, cycle, "MEM");
-                    } else
-                    {
-                        this.execute.IR = this.execute.IR;
-                        this.execute.NPC = this.execute.NPC;
-                        AddToPipeline(pipeline, this.mem.NPC, cycle, "*");
                     }
-                   
+                    else
+                    {
+
+                        AddToPipeline(pipeline, this.mem.NPC, cycle, "*");
+                        this.mem.IR = String.Empty;
+                        this.mem.NPC = this.execute.NPC;
+                    }
+
                 }
 
                 // EX
@@ -112,13 +111,12 @@ namespace MIPS64Simulator.Helper
                     {
                         GetEx(this.execute.IR);
                         AddToPipeline(pipeline, this.execute.NPC, cycle, "EX");
-                    } else
-                    {
-                        this.execute.IR = this.decode.IR;
-                        this.execute.NPC = this.decode.NPC;
-                        AddToPipeline(pipeline, this.execute.NPC, cycle, "*");
                     }
-                   
+                    else
+                    {
+                        AddToPipeline(pipeline, this.execute.NPC, cycle, "*");
+                        this.execute.IR = String.Empty;
+                    }
                 }
 
                 // ID
@@ -128,21 +126,21 @@ namespace MIPS64Simulator.Helper
                     this.decode.NPC = this.fetch.PC;
                     if (CheckStallStatus(this.decode.NPC))
                     {
-                        
+
                         this.decode.A = GetA(this.decode.IR);
                         this.decode.B = GetB(this.decode.IR);
                         this.decode.Imm = GetImm(this.decode.IR);
                         AddToPipeline(pipeline, this.decode.NPC, cycle, "ID");
-                    } else
+                    }
+                    else
                     {
-                        this.decode.IR = this.fetch.IR;
-                        this.decode.NPC = this.fetch.PC;
                         AddToPipeline(pipeline, this.decode.NPC, cycle, "*");
+                        this.decode.IR = this.stall.IR;
+                        this.decode.NPC = this.stall.Address;
                     }
                 }
 
                 // IF
-
                 if (!this.stall.IsStall)
                 {
                     this.fetch.IR = GetInstruction(this.fetch.NPC);
@@ -152,24 +150,23 @@ namespace MIPS64Simulator.Helper
                         GetUsedRegisters(this.fetch.IR, this.fetch.NPC);
                     }
 
-                    if(HasDependency(this.fetch.IR, this.fetch.NPC))
+                    if (HasDependency(this.fetch.IR, this.fetch.NPC))
                     {
                         this.stall.IsStall = true;
                         this.stall.Address = this.fetch.NPC;
+                        this.stall.IR = this.fetch.IR;
+                        IsLastCycle = false;
                     }
 
                     AddToPipeline(pipeline, this.fetch.NPC, cycle, "IF");
                     this.fetch.PC = this.fetch.NPC;
 
-                  
-                        this.fetch.NPC += 4;
-                       
-                    
-                   
+
+                    this.fetch.NPC += 4;
                 }
-              
+
                 cycle++;
-            } while (!IsLastCycle);
+            } while (!IsLastCycle && !IsOtherComplete());
 
 
 
@@ -218,7 +215,7 @@ namespace MIPS64Simulator.Helper
                 case "000000":
                     rs = instruction.HexToBin().Substring(6, 5).BinToDec();
                     rt = instruction.HexToBin().Substring(11, 5).BinToDec();
-                    flag = this.RegisterInUse.Any(x => x.Key == rs && x.Value != address) 
+                    flag = this.RegisterInUse.Any(x => x.Key == rs && x.Value != address)
                             || this.RegisterInUse.Any(x => x.Key == rt && x.Value != address);
                     break;
                 default:
@@ -339,6 +336,10 @@ namespace MIPS64Simulator.Helper
                         this.execute.ALUOutput = this.decode.A << (int)this.decode.B;
                         this.execute.Cond = 0;
                         break;
+                    case "000000":
+                        this.execute.ALUOutput = 0;
+                        this.execute.Cond = 0;
+                        break;
                 }
             }
 
@@ -363,7 +364,6 @@ namespace MIPS64Simulator.Helper
                     IsRType = true;
                     break;
                 default:
-                    this.execute.IR = String.Empty;
                     break;
             }
 
@@ -375,6 +375,7 @@ namespace MIPS64Simulator.Helper
                     case "100101": // OR
                     case "101010": // SLT
                     case "010110": // Shift Right
+                    case "000000": // NOP
                         this.mem.ALUOutput = this.execute.ALUOutput;
                         this.execute.Cond = 0;
                         break;
@@ -414,7 +415,7 @@ namespace MIPS64Simulator.Helper
         {
 
             // if instruction is previous, allow them to pass
-            if(address < this.fetch.PC)
+            if (address < this.fetch.PC)
             {
                 return true;
             }
@@ -438,13 +439,22 @@ namespace MIPS64Simulator.Helper
         {
             for (int i = 0; i < pipeline.Rows.Count; i++)
             {
-                int currentRow = (int)pipeline.Rows[i][1];
+                int currentRow = (int)pipeline.Rows[i][0];
                 if (currentRow == instruction)
                 {
                     pipeline.Rows[i][cycle + 1] = stage;
                 }
             }
 
+        }
+
+        private bool IsOtherComplete()
+        {
+            return String.IsNullOrEmpty(this.fetch.IR)
+                    && String.IsNullOrEmpty(this.decode.IR)
+                    && String.IsNullOrEmpty(this.mem.IR)
+                    && String.IsNullOrEmpty(this.execute.IR)
+                    && String.IsNullOrEmpty(this.wb.IR);
         }
         #endregion
     }

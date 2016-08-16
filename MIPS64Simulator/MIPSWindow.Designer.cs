@@ -46,6 +46,7 @@
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.executeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblRegister = new System.Windows.Forms.Label();
             this.grdRegisters = new System.Windows.Forms.DataGridView();
@@ -63,7 +64,6 @@
             this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblPipeline = new System.Windows.Forms.Label();
             this.grdPipeline = new System.Windows.Forms.DataGridView();
-            this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdInstructions)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -183,9 +183,16 @@
             // runToolStripMenuItem
             // 
             this.runToolStripMenuItem.Name = "runToolStripMenuItem";
-            this.runToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.runToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
             this.runToolStripMenuItem.Text = "Run";
             this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
+            // 
+            // resetToolStripMenuItem
+            // 
+            this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
+            this.resetToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
+            this.resetToolStripMenuItem.Text = "Reset";
+            this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
             // 
             // flowLayoutPanel2
             // 
@@ -309,6 +316,7 @@
             this.grdMemory.RowHeadersVisible = false;
             this.grdMemory.Size = new System.Drawing.Size(240, 285);
             this.grdMemory.TabIndex = 1;
+            this.grdMemory.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdMemory_CellClick);
             // 
             // colMemAddress
             // 
@@ -353,13 +361,6 @@
             this.grdPipeline.Name = "grdPipeline";
             this.grdPipeline.Size = new System.Drawing.Size(854, 139);
             this.grdPipeline.TabIndex = 1;
-            // 
-            // resetToolStripMenuItem
-            // 
-            this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.resetToolStripMenuItem.Text = "Reset";
-            this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
             // 
             // MIPSWindow
             // 

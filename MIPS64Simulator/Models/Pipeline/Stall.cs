@@ -8,6 +8,7 @@ namespace MIPS64Simulator.Models.Pipeline
 {
     public class Stall
     {
+        public string IR { get; set; }
         public bool IsStall { get; set; }
         public int Address { get; set; }
     }

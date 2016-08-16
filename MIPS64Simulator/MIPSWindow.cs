@@ -147,5 +147,14 @@ namespace MIPS64Simulator
         {
             this.presenter.Reset();
         }
+
+        private void grdMemory_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == colMemValue.Index && e.RowIndex >= 0)
+            {
+                Int64 value = Int64.Parse(grdMemory[e.ColumnIndex, e.RowIndex].Value.ToString());
+                statusStrip.Text = String.Format("Value: {0}", value.ToString());
+            }
+        }
     }
 }
