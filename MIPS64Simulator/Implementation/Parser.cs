@@ -74,8 +74,6 @@ namespace MIPS64Simulator.Implementation
                         case "alphabet":
                         case "number":
                             partialString += characters[p];
-                            if (commands.Contains(partialString) == true && commandName == "")
-                            {
                                 if (expectingLabel == true)
                                 {
                                     // just let the loop continue until a colon is found
@@ -86,13 +84,12 @@ namespace MIPS64Simulator.Implementation
                                     partialString = "";
                                 }                            
                                 break;
-                            }
-                            break;
                         case "colon":
                             if (labelName == "") // if there is no label yet
                             {
                                 labelName = partialString;
                                 partialString = "";
+                                expectingLabel = false;
                             }
                             else if (labelName != "") // if there is already a label
                             {
